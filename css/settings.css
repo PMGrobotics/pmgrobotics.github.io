@@ -191,8 +191,9 @@ input[type="number"] {
   background-repeat: no-repeat;
 }
 
-/* Buttons */
+/* Buttons */ 
 .btn {
+  /* justify-content: ; */
   font-family: 'Karla', sans-serif;
   letter-spacing: -1.12px;
   font-weight: 700;

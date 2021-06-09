@@ -529,9 +529,17 @@
 
 @media (min-width: 1200px) {
   .hero-image img {
-    max-width: 105%;
+    max-width: 115%;
+    margin-top: -70px;
   }
 }
+@media (min-width: 100px) {
+  .hero-image img {
+    max-width: 100%;
+    margin-top: -20px;
+  }
+}
+
 
 /* /////////////////////////// 
     Feature Section
@@ -590,11 +598,14 @@
   }
 }
 
+
 .feature-card {
   border-radius: 5px;
-  border: 1px solid #d9e4e6;
+  border: 2px solid #d9e4e6;
   background-color: #ffffff;
   padding: 35px;
+  height: auto;
+  /* margin-left: 40px; */
 }
 
 @media (min-width: 992px) {
@@ -610,15 +621,19 @@
 }
 
 .feature-card .card-icon {
+  justify-content: right;
+  margin-top: -20px;
   width: 80px;
   height: 80px;
   border-radius: 500px;
   background-color: rgba(244, 111, 124, 0.1);
+
   color: #f46f7c;
   font-size: 35px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -ms-flex-align: center;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -626,9 +641,21 @@
       -ms-flex-align: center;
           align-items: center;
   margin-bottom: 28px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media (min-width: 992px) {
+  .feature-card .card-icon {
+    
+    width: 70px;
+    height: 70px;
+    font-size: 30px;
+    margin-bottom: 38px;
+  }
+}
+
+@media (min-width: 100px) {
   .feature-card .card-icon {
     width: 70px;
     height: 70px;
@@ -642,8 +669,19 @@
     width: 80px;
     height: 80px;
     font-size: 35px;
+    
   }
 }
+
+@media (min-width: 1200px) {
+  .feature-card .member-image {
+    width: 80px;
+    height: 80px;
+    font-size: 35px;
+  }
+}
+
+
 
 .feature-card .card-content h3 {
   color: #1f1f1f;
@@ -654,6 +692,8 @@
   font-size: 28px;
   font-weight: 700;
   letter-spacing: -2px;
+  /* align-content: center; */
+  text-align: center;
 }
 
 @media (min-width: 992px) {
@@ -684,6 +724,7 @@
 @media (min-width: 1200px) {
   .feature-card .card-content p {
     font-size: 17px;
+    word-spacing: 2px;
   }
 }
 
@@ -785,7 +826,7 @@
 
 .content-right-content, .content-left-content {
   padding-top: 30px;
-  text-align: left;
+  text-align: center;
 }
 
 @media (min-width: 576px) {
@@ -796,17 +837,18 @@
 
 @media (min-width: 992px) {
   .content-right-content, .content-left-content {
-    padding-top: 60px;
+    padding-top: 5px;
   }
 }
 
 @media (min-width: 1200px) {
   .content-right-content, .content-left-content {
-    padding-top: 83px;
+    padding-top: 10px;
   }
 }
 
 .content-right-content h2, .content-left-content h2 {
+  text-align: center;
   letter-spacing: -2px;
   padding-bottom: 25px;
   font-weight: 700;
@@ -837,8 +879,9 @@
 }
 
 .content-right-content p, .content-left-content p {
+  text-align: justify;      /*menjanje izgleda texta */
   font-weight: 400;
-  letter-spacing: -0.4px;
+  letter-spacing: -0px;
   font-size: 18px;
   line-height: 30px;
   color: #333333;
@@ -922,6 +965,8 @@
   -webkit-box-pack: start;
       -ms-flex-pack: start;
           justify-content: flex-start;
+
+  
 }
 
 @media (min-width: 576px) {
@@ -1026,6 +1071,46 @@
     line-height: 36px;
   }
 }
+
+/* ///////////////////////////
+    Team Section 
+//////////////////////////// */
+.team-member-section {
+  background-color: #f8f8f8;
+  padding: 60px 0 0px;
+}
+
+@media (min-width: 992px) {
+  .team-member-section {
+    padding: 10px 0 40px;
+  }
+}
+
+.team-member-img {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+
+  padding: 40px 0 40px;
+}
+
+.team-member-img img {
+  width: 100%;
+}
+
+@media (min-width: 992px) {
+  .team-member-img {
+    padding-bottom: 0;
+  }
+}
+
+
 
 /* ///////////////////////////
     Pricing Section 

@@ -7,7 +7,7 @@ Generated using nucleoapp.com
 @font-face {
   font-family: 'ep';
   src: url('../fonts/ep.eot');
-  src: url('../fonts/ep.eot') format('embedded-opentype'), url('../fonts/ep.woff2') format('woff2'), url('../fonts/ep.woff') format('woff'), url('../fonts/ep.ttf') format('truetype'), url('../fonts/ep.svg') format('svg');
+  src: url('../fonts/ep.eot') format('embedded-opentype'), url('../fonts/ep.woff2') format('woff2'), url('../fonts/ep.woff') format('woff'), url('../fonts/ep.ttf') format('truetype'), url('../fonts/ep.svg') format('svg'), url('../../icon-linkedin.svg') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -258,6 +258,7 @@ Generated using nucleoapp.com
   content: "\ea1b";
 }
 
+/* za modeling */
 .icon-settings-gear-64::before {
   content: "\ea1c";
 }
@@ -282,7 +283,8 @@ Generated using nucleoapp.com
   content: "\ea21";
 }
 
-.icon-preferences-circle::before {
+/* Electronics */
+.icon-preferences-circle::before {    
   content: "\ea22";
 }
 
@@ -558,6 +560,7 @@ Generated using nucleoapp.com
   content: "\ea6c";
 }
 
+/* za consalting */
 .icon-chat-46::before {
   content: "\ea6d";
 }
