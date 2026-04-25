@@ -1,0 +1,179 @@
+# ─────────────────────────────────────────────────────────────────────────────
+#  PMG Robotics — projects data
+#
+#  HOW TO ADD A NEW PROJECT:
+#  1. Copy one of the blocks below and paste it at the end of this file.
+#  2. Fill in the fields. The only required ones are: id, title, client, summary.
+#  3. Put your images in images/projects/<your-project-id>/
+#  4. Reference them in the "images" list (see examples below).
+#  5. Refresh the site — it will appear automatically.
+#
+#  HOW TO HIDE A PROJECT temporarily:
+#  Add a line "hidden: true" inside its block.
+#
+#  FIELD REFERENCE:
+#    id          — URL-safe name, no spaces, lowercase, use hyphens  (e.g. smart-lock)
+#    title       — Display name of the project
+#    client      — Company / person who commissioned the work
+#    category    — Short descriptor shown on the card
+#    thumbnail   — Path to the card image (leave empty "" for a letter placeholder)
+#    summary     — One-sentence description shown on the project card
+#    description — Full description shown on the project detail page.
+#                  Use "|" for multi-line text (keep each paragraph indented)
+#    images      — List of image paths for the detail page gallery
+#    tags        — Short keywords, max 5–6 shown on detail page, first 3 on card
+#
+#  IMAGE PATHS are relative to the site root, e.g. images/projects/sagitta/pcb.png
+# ─────────────────────────────────────────────────────────────────────────────
+
+- id: sagitta
+  title: Sagitta
+  client: Arcsec
+  category: PCB Design
+  thumbnail: ""                     # ← add image path once you have one
+  summary: "High-precision star tracker PCB for attitude determination in space applications."
+  description: |
+    Sagitta is a star tracker developed for Arcsec, designed for precise attitude
+    determination in satellite applications. PMG Robotics designed the PCB and
+    embedded systems for this high-reliability space hardware.
+  images: []                        # ← add image paths here, e.g. ["images/projects/sagitta/pcb.png"]
+  tags:
+    - PCB Design
+    - Space Hardware
+    - Embedded Systems
+    - High Reliability
+
+- id: twinkle
+  title: Twinkle
+  client: Arcsec
+  category: PCB Design
+  thumbnail: ""
+  summary: "Miniaturized star tracker for nanosatellite attitude determination."
+  description: |
+    Twinkle is a compact star tracker developed for Arcsec, designed for use in
+    nanosatellites. The challenge was achieving high-precision optical measurement
+    within a very tight size, weight, and power (SWaP) budget.
+  images: []
+  tags:
+    - PCB Design
+    - Space Hardware
+    - Nanosatellites
+    - Low Power
+
+- id: am1808-som
+  title: AM1808 System-on-Module
+  client: Rabbit Hole Computing
+  category: PCB Design
+  thumbnail: "images/projects/am1808/pcb-render.png"
+  summary: "Custom SoM based on the Texas Instruments AM1808 processor for industrial applications."
+  description: |
+    A custom System-on-Module (SoM) built around the Texas Instruments AM1808
+    processor, designed for Rabbit Hole Computing LLC (Alex Peres).
+
+    The module integrates the processor, power management, DDR2 memory, NAND flash,
+    and all supporting circuitry onto a compact, high-density PCB. The design
+    targets industrial embedded applications where the SoM can be dropped onto
+    a custom carrier board.
+  images:
+    - "images/projects/am1808/pcb-render.png"
+  tags:
+    - PCB Design
+    - SoM
+    - TI AM1808
+    - Industrial
+    - High-Density Layout
+
+- id: mpc8313-powerquic
+  title: MPC8313E PowerQUIC II
+  client: Rabbit Hole Computing
+  category: PCB Design
+  thumbnail: ""
+  summary: "Custom embedded computing board based on the NXP MPC8313E PowerQUIC II processor."
+  description: |
+    A custom board design based on the NXP MPC8313E PowerQUIC II processor,
+    designed for Rabbit Hole Computing LLC (Alex Peres).
+
+    The design includes DDR2 SDRAM, NAND and NOR flash, multiple Ethernet ports,
+    USB, and various serial interfaces — targeting networking and industrial
+    control applications.
+  images: []
+  tags:
+    - PCB Design
+    - NXP
+    - PowerQUIC
+    - Embedded Computing
+    - Networking
+
+- id: smart-lock
+  title: Smart Lock
+  client: Bikely
+  category: PCB Design & Embedded Programming
+  thumbnail: "images/projects/smart-lock/pcb-render.png"
+  summary: "Ultra-low-power IoT bike lock with NB-IoT connectivity and remote control."
+  description: |
+    Bikely is a cutting-edge smart bike lock designed to provide security and
+    convenience for cyclists. The device is built around an ultra-low-power
+    STM32L071CBT6 microcontroller (Arm Cortex-M0+, 32 MHz), keeping battery
+    consumption to an absolute minimum.
+
+    The locking mechanism uses a DC motor controlled by a DRV8210 integrated
+    motor driver (four N-channel power FETs), providing precise and reliable
+    lock/unlock actuation.
+
+    Connectivity is provided by the Quectel BG95-M2 NB-IoT module paired with
+    a ceramic antenna and eSIM, enabling remote control from a smartphone app
+    with no Wi-Fi infrastructure required.
+
+    PMG Robotics was responsible for the full hardware design, PCB layout,
+    and embedded firmware development.
+  images:
+    - "images/projects/smart-lock/pcb-render.png"
+  tags:
+    - PCB Design
+    - Embedded Programming
+    - STM32
+    - NB-IoT
+    - IoT
+    - Ultra-Low-Power
+
+- id: smart-suitcase
+  title: Smart Suitcase
+  client: Novum Group
+  category: PCB Design & Embedded Programming
+  thumbnail: ""
+  summary: "Connected smart luggage with embedded tracking, security, and wireless features."
+  description: |
+    A smart suitcase project for Dejan at Novum Group, featuring embedded
+    electronics for real-time tracking, security monitoring, and wireless
+    connectivity.
+
+    PMG Robotics designed the PCB and firmware for the embedded module that
+    fits within the suitcase structure.
+  images: []
+  tags:
+    - PCB Design
+    - Embedded Programming
+    - IoT
+    - Asset Tracking
+
+- id: lorawan-energy-meter
+  title: LoRaWAN Energy Meter
+  client: Jan Kerkel
+  category: PCB Design & Embedded Programming
+  thumbnail: ""
+  summary: "Low-power energy meter with LoRaWAN wireless connectivity for remote monitoring."
+  description: |
+    A LoRaWAN-connected energy meter designed for Jan Kerkel, intended for
+    remote monitoring of energy consumption in locations without reliable
+    network infrastructure.
+
+    The design prioritizes low power consumption to allow extended battery-powered
+    operation in the field. LoRaWAN provides long-range wireless connectivity
+    back to a central monitoring server.
+  images: []
+  tags:
+    - PCB Design
+    - Embedded Programming
+    - LoRaWAN
+    - Energy Monitoring
+    - Low Power

@@ -1,0 +1,36 @@
+# ─────────────────────────────────────────────────────────────────
+#  PMG Robotics — site configuration
+#  Edit this file to change the company info shown on the website.
+# ─────────────────────────────────────────────────────────────────
+
+name: PMG Robotics
+
+# Hero headline — HTML is OK here, <br> forces a line break, <em> gives accent color
+tagline: "From concept to<br><em>production-ready</em><br>hardware."
+
+# Short paragraph below the headline
+description: >-
+  PCB design, embedded firmware, and mechanical engineering —
+  we take your idea from prototype to production-ready product.
+
+# Short text shown in the footer next to the logo
+footer_desc: >-
+  PCB design, embedded firmware, and mechanical engineering
+  for hardware startups and established companies.
+
+# Your contact email — this appears as a button in the footer
+email: "info@pmgembedded.com"   # ← replace with your real email
+
+location: "Novi Sad, Serbia"
+
+# ── Partners ──────────────────────────────────────────────────────
+# Companies shown in the Partners section.
+# logo: URL to their logo image (leave empty "" to show name as text instead)
+# url:  their website
+partners:
+  - name: Bitgear
+    url: "https://www.bitgear.rs/"
+    logo: "https://www.bitgear.rs/wp-content/themes/bitgear-theme/assets/svg/logo-small.svg"
+  - name: Spes AI
+    url: "https://spes.ai/"
+    logo: "https://spes.ai/assets/banner.png"
