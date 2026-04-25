@@ -79,13 +79,14 @@ function heroHTML() {
   const visual = slides.length
     ? `<div class="hero-slideshow" id="hero-slideshow">
         ${slides.map((p, i) => `
-          <div class="slideshow-slide${i === 0 ? ' active' : ''}">
+          <div class="slideshow-slide${i === 0 ? ' active' : ''}" data-id="${p.id}" role="button" tabindex="0" aria-label="View ${p.title}">
             <img src="${p.thumbnail}" alt="${p.title}" class="slideshow-img" loading="lazy">
             <div class="slideshow-caption">
               <div class="slideshow-caption-text">
                 <span class="slideshow-client">${p.client}</span>
                 <span class="slideshow-title">${p.title}</span>
               </div>
+              <span class="slideshow-arrow">&#8594;</span>
             </div>
           </div>`).join('')}
         ${slides.length > 1 ? `
@@ -407,6 +408,15 @@ function initSlideshow() {
     dot.addEventListener('click', () => {
       goTo(parseInt(dot.dataset.idx));
       startTimer();
+    });
+  });
+
+  // Clicking a slide opens the project
+  container.querySelectorAll('.slideshow-slide').forEach(slide => {
+    slide.addEventListener('click', e => {
+      // Don't navigate if clicking a dot
+      if (e.target.closest('.slideshow-dots')) return;
+      if (slide.dataset.id) window.location.hash = `project/${slide.dataset.id}`;
     });
   });
 

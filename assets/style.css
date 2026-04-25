@@ -273,8 +273,14 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  pointer-events: none;      /* invisible slides can't be clicked */
 }
-.slideshow-slide.active { opacity: 1; }
+.slideshow-slide.active {
+  opacity: 1;
+  pointer-events: auto;      /* only the visible slide is clickable */
+}
+.slideshow-slide:hover .slideshow-arrow { opacity: 1; transform: translateX(4px); }
 
 .slideshow-img {
   width: 100%;
@@ -308,6 +314,14 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   font-size: 13px;
   font-weight: 600;
   color: #fff;
+}
+.slideshow-arrow {
+  font-size: 18px;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  flex-shrink: 0;
+  margin-left: auto;
 }
 .slideshow-dots {
   position: absolute;
