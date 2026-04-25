@@ -1,9 +1,9 @@
 # ─────────────────────────────────────────────────────────────────────────────
-#  PMG Robotics — team data
+#  PMG Embedded — team data
 #
 #  HOW TO ADD A TEAM MEMBER:
 #  1. Copy one block below and paste it at the end.
-#  2. Fill in name, role, and optionally photo and linkedin.
+#  2. Fill in name, role, and optionally photo, linkedin, and email.
 #  3. Put the photo in images/team/ and reference it here.
 #
 #  FIELD REFERENCE:
@@ -11,24 +11,29 @@
 #    role     — Job title / short description
 #    photo    — Path to headshot image (leave empty "" to show initials instead)
 #    linkedin — Full URL to LinkedIn profile (leave empty "" to hide the link)
+#    email    — Company email address (leave empty "" to hide)
 # ─────────────────────────────────────────────────────────────────────────────
 
 - name: Danilo Lazic
   role: Firmware Developer & Co-founder
   photo: "images/team/danilo.png"
-  linkedin: ""          # ← paste your LinkedIn URL here, e.g. "https://linkedin.com/in/yourname"
+  linkedin: "https://www.linkedin.com/in/danilo-lazic-73455418a/"
+  email: "danilo@pmgembedded.com"
 
 - name: Nikola Rasevic
   role: PCB Design Engineer
   photo: "images/team/nikola.png"
-  linkedin: ""
+  linkedin: "https://www.linkedin.com/in/nikirasevic/"
+  email: "nikola@pmgembedded.com"
 
 - name: Sladjan Plavsic
   role: Mechanical Designer
   photo: "images/team/sladjan.png"
-  linkedin: ""
+  linkedin: "https://www.linkedin.com/in/sladjanplavsic/"
+  email: "sladjan@pmgembedded.com"
 
 - name: Zelimir Trisic
   role: Electrical Engineer
   photo: "images/team/zelimir.png"
-  linkedin: ""
+  linkedin: "https://www.linkedin.com/in/zelimir-trisic-292148175/"
+  email: "zelimir@pmgembedded.com"

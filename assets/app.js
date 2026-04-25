@@ -252,14 +252,17 @@ function teamHTML() {
         ${state.team.map(m => `
           <div class="team-member">
             <div class="member-photo">
-              ${m.photo
-                ? `<img src="${m.photo}" alt="${m.name}" loading="lazy">`
-                : `<div class="photo-placeholder">${(m.name || '?')[0]}</div>`}
+              ${m.linkedin
+                ? `<a href="${m.linkedin}" class="member-photo-link" target="_blank" rel="noopener noreferrer" aria-label="${m.name} on LinkedIn">
+                     ${m.photo ? `<img src="${m.photo}" alt="${m.name}" loading="lazy">` : `<div class="photo-placeholder">${(m.name || '?')[0]}</div>`}
+                     <div class="member-photo-overlay">${svgLinkedIn()}</div>
+                   </a>`
+                : m.photo ? `<img src="${m.photo}" alt="${m.name}" loading="lazy">` : `<div class="photo-placeholder">${(m.name || '?')[0]}</div>`}
             </div>
             <div class="member-info">
               <h4>${m.name || ''}</h4>
               <p class="member-role">${m.role || ''}</p>
-              ${m.linkedin ? `<a href="${m.linkedin}" class="member-linkedin" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>` : ''}
+              ${m.email ? `<a href="mailto:${m.email}" class="member-link">${m.email}</a>` : ''}
             </div>
           </div>`).join('')}
       </div>
@@ -555,6 +558,18 @@ function svgGear() {
       0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06
       -.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2
       2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+  </svg>`;
+}
+
+function svgLinkedIn() {
+  return `<svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28" aria-hidden="true">
+    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853
+      0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9
+      1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337
+      7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063
+      2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0
+      .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24
+      23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
   </svg>`;
 }
 
