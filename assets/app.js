@@ -67,6 +67,7 @@ function renderHome() {
 
   initProjectCards();
   initSlideshow();
+  initContactForm();
 }
 
 function heroHTML() {
@@ -74,7 +75,7 @@ function heroHTML() {
   const tagline = c.tagline || 'From concept to<br><em>production-ready</em><br>hardware.';
   const desc    = c.description || 'PCB design, embedded firmware, and mechanical engineering &mdash; full product bringup from prototype to production.';
 
-  const slides = (state.projects || []).filter(p => p.thumbnail && p.thumbnail.trim());
+  const slides = (state.projects || []).filter(p => !p.hidden && p.thumbnail && p.thumbnail.trim());
 
   const visual = slides.length
     ? `<div class="hero-slideshow" id="hero-slideshow">
@@ -158,7 +159,8 @@ function servicesHTML() {
 }
 
 function projectsHTML() {
-  if (!state.projects.length) {
+  const visible = state.projects.filter(p => !p.hidden);
+  if (!visible.length) {
     const notice = state.loadError
       ? `<p style="color:#ef4444;font-size:14px;padding:8px 0;line-height:1.7">
            Could not load projects.yaml.<br>
@@ -189,7 +191,7 @@ function projectsHTML() {
     </div>
     <div class="projects-scroll-wrapper">
       <div class="projects-scroll" id="projects-scroll">
-        ${state.projects.map(projectCardHTML).join('')}
+        ${visible.map(projectCardHTML).join('')}
       </div>
     </div>
   </section>`;
@@ -271,6 +273,27 @@ function contactHTML() {
   const email = c.email || '';
   const year  = new Date().getFullYear();
 
+  const rightContent = c.form_endpoint
+    ? `<h3>Work with us</h3>
+       <p>Have a hardware project? Let's talk about it.</p>
+       <div id="form-success" class="form-success">
+         <strong>Message sent!</strong> We'll get back to you shortly.
+       </div>
+       <p id="form-error" class="form-error-global"></p>
+       <form id="contact-form" class="contact-form">
+         <div class="form-row">
+           <input type="text" name="name" placeholder="Your name" required class="form-input">
+           <input type="email" name="email" placeholder="Your email" required class="form-input">
+         </div>
+         <textarea name="message" placeholder="Tell us about your project..." required class="form-input form-textarea"></textarea>
+         <button type="submit" class="btn btn-primary" id="form-submit-btn">Send message</button>
+       </form>`
+    : `<h3>Work with us</h3>
+       <p>Have a hardware project? Let's talk about it.</p>
+       ${email
+         ? `<a href="mailto:${email}" class="btn btn-primary">${email}</a>`
+         : `<p style="color:var(--text-dim);font-size:13px">(add your email to data/config.yaml)</p>`}`;
+
   return `
   <footer class="contact-section" id="contact">
     <div class="container">
@@ -280,13 +303,10 @@ function contactHTML() {
                onerror="this.style.display='none'">
           <p class="contact-tagline">${c.footer_desc || 'PCB design, embedded firmware, and mechanical engineering for hardware startups and established companies.'}</p>
           <p class="contact-location">Novi Sad, Serbia</p>
+          ${email ? `<a href="mailto:${email}" class="contact-email-link">${email}</a>` : ''}
         </div>
         <div class="contact-right">
-          <h3>Work with us</h3>
-          <p>Have a hardware project? Let's talk about it.</p>
-          ${email
-            ? `<a href="mailto:${email}" class="btn btn-primary">${email}</a>`
-            : `<p style="color:var(--text-dim);font-size:13px">(add your email to data/config.yaml)</p>`}
+          ${rightContent}
         </div>
       </div>
       <div class="footer-bottom">
@@ -440,6 +460,45 @@ function initHamburger() {
       btn.classList.remove('open');
       btn.setAttribute('aria-expanded', 'false');
     });
+  });
+}
+
+function initContactForm() {
+  const form = document.getElementById('contact-form');
+  if (!form) return;
+  const endpoint = (state.config.form_endpoint || '').trim();
+  if (!endpoint) return;
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn     = document.getElementById('form-submit-btn');
+    const success = document.getElementById('form-success');
+    const error   = document.getElementById('form-error');
+
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    error.textContent = '';
+
+    try {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' },
+      });
+      if (res.ok) {
+        form.style.display = 'none';
+        success.style.display = 'block';
+      } else {
+        const json = await res.json().catch(() => ({}));
+        error.textContent = json.error || 'Something went wrong. Please try again.';
+        btn.disabled = false;
+        btn.textContent = 'Send message';
+      }
+    } catch {
+      error.textContent = 'Could not send. Check your connection and try again.';
+      btn.disabled = false;
+      btn.textContent = 'Send message';
+    }
   });
 }
 

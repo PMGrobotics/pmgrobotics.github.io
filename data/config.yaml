@@ -30,7 +30,13 @@ location: "Novi Sad, Serbia"
 partners:
   - name: Bitgear
     url: "https://www.bitgear.rs/"
-    logo: "https://www.bitgear.rs/wp-content/themes/bitgear-theme/assets/svg/logo-small.svg"
+    logo: "images/partner_logos/bitgear.svg"
   - name: Spes AI
     url: "https://spes.ai/"
-    logo: "https://spes.ai/assets/banner.png"
+    logo: "images/partner_logos/spes.png"
+
+# ── Contact form ──────────────────────────────────────────────────
+# Sign up at https://formspree.io, create a form, and paste the
+# endpoint URL here (looks like https://formspree.io/f/xyzabcde).
+# Leave blank "" to show only the email button with no form.
+form_endpoint: "https://formspree.io/f/xaqakwpw"

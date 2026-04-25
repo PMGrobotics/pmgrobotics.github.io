@@ -14,6 +14,7 @@ You need a local HTTP server because the browser blocks loading YAML files direc
 cd ~/projects/pmgembedded.github.io   # or wherever the repo is
 python3 -m http.server 8000
 ```
+> On Windows: same command, just use `python` instead of `python3`.
 
 Then open **<http://localhost:8000>** in your browser.
 
@@ -89,7 +90,7 @@ CNAME               — custom domain (pmgembedded.com)
 
 1. Refresh <http://localhost:8000> — the card appears automatically, and the thumbnail is added to the rotating hero slideshow.
 
-To **hide** a project without deleting it, add `hidden: true` to its block (note: the app currently doesn't implement hidden filtering — ask Claude to add it if needed).
+To **hide** a project without deleting it, add `hidden: true` to its block. It will be excluded from the project cards and hero slideshow.
 
 ---
 
@@ -97,9 +98,17 @@ To **hide** a project without deleting it, add `hidden: true` to its block (note
 
 Edit `data/team.yaml`. To add a member, copy an existing block and fill it in. Put the photo in `images/team/`.
 
+## How to add a contact form - Done
+
+1. Sign up at [formspree.io](https://formspree.io) (free tier: 50 submissions/month)
+2. Create a new form — Formspree gives you an endpoint URL like `https://formspree.io/f/xyzabcde`
+3. Paste it into `data/config.yaml` under `form_endpoint:`
+
+The contact section will automatically switch from an email button to a full name/email/message form.
+
 ## How to update partners
 
-Edit `data/config.yaml` under the `partners:` key. Each partner needs a `name`, `url`, and optionally a `logo` URL.
+Edit `data/config.yaml` under the `partners:` key. Each partner needs a `name`, `url`, and a `logo` path (relative, e.g. `images/partner_logos/example.svg`, or leave `""` to show the name as text).
 
 ## How to update company info / email / tagline
 
@@ -126,9 +135,3 @@ Single-page app with hash-based routing:
 **No build step.** Edit files, refresh browser. `jsyaml.min.js` is bundled locally (not CDN) so it works offline.
 
 ---
-
-## Known issues / future ideas
-
-- No "hidden: true" filtering implemented yet for projects
-- Partner logos are loaded from external URLs — may break if those sites change their assets
-- No contact form — footer shows email address as a mailto link only
