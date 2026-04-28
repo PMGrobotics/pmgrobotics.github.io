@@ -34,6 +34,9 @@ partners:
   - name: Spes AI
     url: "https://spes.ai/"
     logo: "images/partner_logos/spes.png"
+  - name: Arcsec
+    url: "https://www.arcsec.space/"
+    logo: "images/partner_logos/arcsec.svg"
 
 # ── Contact form ──────────────────────────────────────────────────
 # Sign up at https://formspree.io, create a form, and paste the
