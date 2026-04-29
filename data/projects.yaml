@@ -129,7 +129,7 @@
 - id: usb-hub
   hidden: false
   title: Industrial USB Hub
-  client: Liam Burns
+  client: Alterra
   category: PCB Design
   thumbnail: "images/projects/liam-burns/tst_500.png"
   summary: "Four-port USB 3.0 hub with industrial power input and per-port power management."

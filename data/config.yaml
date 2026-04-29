@@ -37,6 +37,9 @@ partners:
   - name: Arcsec
     url: "https://www.arcsec.space/"
     logo: "images/partner_logos/arcsec.svg"
+  - name: Alterra
+    url: "https://alterra.com.au/"
+    logo: "images/partner_logos/alterra.png"
 
 # ── Contact form ──────────────────────────────────────────────────
 # Sign up at https://formspree.io, create a form, and paste the
