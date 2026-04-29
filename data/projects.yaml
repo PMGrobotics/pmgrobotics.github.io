@@ -12,7 +12,7 @@
 #  Add a line "hidden: true" inside its block.
 #
 #  FIELD REFERENCE:
-#    id          — URL-safe name, no spaces, lowercase, use hyphens  (e.g. smart-lock)
+#    id          — URL-safe name, no spaces, lowercase, use hyphens  (e.g. smart-lock-keivan)
 #    title       — Display name of the project
 #    client      — Company / person who commissioned the work
 #    category    — Short descriptor shown on the card
@@ -26,56 +26,24 @@
 #  IMAGE PATHS are relative to the site root, e.g. images/projects/sagitta/pcb.png
 # ─────────────────────────────────────────────────────────────────────────────
 
-- id: sagitta
-  title: Sagitta
-  client: Arcsec
-  category: PCB Design
-  thumbnail: ""                     # ← add image path once you have one
-  summary: "High-precision star tracker PCB for attitude determination in space applications."
-  description: |
-    Sagitta is a star tracker developed for Arcsec, designed for precise attitude
-    determination in satellite applications. PMG Robotics designed the PCB and
-    embedded systems for this high-reliability space hardware.
-  images: []                        # ← add image paths here, e.g. ["images/projects/sagitta/pcb.png"]
-  tags:
-    - PCB Design
-    - Space Hardware
-    - Embedded Systems
-    - High Reliability
-
-- id: twinkle
-  title: Twinkle
-  client: Arcsec
-  category: PCB Design
-  thumbnail: ""
-  summary: "Miniaturized star tracker for nanosatellite attitude determination."
-  description: |
-    Twinkle is a compact star tracker developed for Arcsec, designed for use in
-    nanosatellites. The challenge was achieving high-precision optical measurement
-    within a very tight size, weight, and power (SWaP) budget.
-  images: []
-  tags:
-    - PCB Design
-    - Space Hardware
-    - Nanosatellites
-    - Low Power
-
 - id: am1808-som
+  hidden: false
   title: AM1808 System-on-Module
   client: Rabbit Hole Computing
   category: PCB Design
-  thumbnail: "images/projects/am1808/pcb-render.png"
+  thumbnail: "images/projects/alex-peres/am1808_trans.png"
   summary: "Custom SoM based on the Texas Instruments AM1808 processor for industrial applications."
   description: |
     A custom System-on-Module (SoM) built around the Texas Instruments AM1808
-    processor, designed for Rabbit Hole Computing LLC (Alex Peres).
+    processor, designed for Rabbit Hole Computing LLC.
 
     The module integrates the processor, power management, DDR2 memory, NAND flash,
-    and all supporting circuitry onto a compact, high-density PCB. The design
-    targets industrial embedded applications where the SoM can be dropped onto
-    a custom carrier board.
+    and all supporting circuitry onto a compact, high-density PCB. Designed to plug
+    into a custom carrier board, it gives industrial customers a fully validated
+    compute core they can build around without redesigning the CPU circuitry from
+    scratch.
   images:
-    - "images/projects/am1808/pcb-render.png"
+    - "images/projects/alex-peres/am1808_trans.png"
   tags:
     - PCB Design
     - SoM
@@ -84,19 +52,22 @@
     - High-Density Layout
 
 - id: mpc8313-powerquic
+  hidden: false
   title: MPC8313E PowerQUIC II
   client: Rabbit Hole Computing
   category: PCB Design
-  thumbnail: ""
+  thumbnail: "images/projects/alex-peres/main_image_v2.png"
   summary: "Custom embedded computing board based on the NXP MPC8313E PowerQUIC II processor."
   description: |
     A custom board design based on the NXP MPC8313E PowerQUIC II processor,
-    designed for Rabbit Hole Computing LLC (Alex Peres).
+    designed for Rabbit Hole Computing LLC.
 
-    The design includes DDR2 SDRAM, NAND and NOR flash, multiple Ethernet ports,
-    USB, and various serial interfaces — targeting networking and industrial
-    control applications.
-  images: []
+    The design integrates DDR2 SDRAM, NAND and NOR flash, dual Ethernet ports,
+    USB, and a range of serial interfaces on a single board — targeting networking
+    appliances and industrial control applications that need a capable, Linux-ready
+    processor without the overhead of an x86 platform.
+  images:
+    - "images/projects/alex-peres/main_image_v2.png"
   tags:
     - PCB Design
     - NXP
@@ -104,30 +75,188 @@
     - Embedded Computing
     - Networking
 
-- id: smart-lock
-  title: Smart Lock
+- id: smart-suitcase
+  hidden: true
+  title: Smart Suitcase
+  client: Novum Group
+  category: PCB Design & Embedded Programming
+  thumbnail: ""
+  summary: "Connected smart luggage with embedded tracking, security, and wireless features."
+  description: |
+    A smart suitcase project for Novum Group, integrating electronics directly
+    into the luggage structure for real-time location tracking, tamper detection,
+    and wireless connectivity.
+
+    PMG Robotics designed the embedded module — PCB, power management, and
+    firmware — to fit within the physical constraints of a commercial suitcase
+    while meeting airline carry-on battery regulations.
+  images: []
+  tags:
+    - PCB Design
+    - Embedded Programming
+    - IoT
+    - Asset Tracking
+
+- id: jetson-carrier-board
+  hidden: false
+  title: Jetson Xavier NX Carrier Board
+  client: Lincon Cavalieri
+  category: PCB Design
+  thumbnail: "images/projects/lincon-cavalieri/main_image_v2.png"
+  summary: "High-density custom carrier board for the NVIDIA Jetson Xavier NX AI compute module."
+  description: |
+    A compact, high-density carrier board designed to host the NVIDIA Jetson Xavier
+    NX system-on-module, targeting edge AI and machine vision applications.
+
+    The board breaks out the module's high-speed interfaces — PCIe, USB 3.0,
+    Gigabit Ethernet, MIPI CSI camera lanes, and GPIO — onto application-specific
+    connectors sized for the target enclosure. Particular attention was given to
+    high-speed signal integrity: controlled-impedance routing, proper reference
+    plane management, and decoupling strategy for the Jetson's LPDDR4x memory
+    interface.
+
+    PMG Robotics handled the full PCB design and layout, including thermal
+    management provisions for sustained AI inference workloads.
+  images:
+    - "images/projects/lincon-cavalieri/main_image_v2.png"
+  tags:
+    - PCB Design
+    - NVIDIA Jetson
+    - Edge AI
+    - High-Speed Design
+    - Signal Integrity
+
+- id: usb-hub
+  hidden: false
+  title: Industrial USB Hub
+  client: Liam Burns
+  category: PCB Design
+  thumbnail: "images/projects/liam-burns/tst_500.png"
+  summary: "Four-port USB 3.0 hub with industrial power input and per-port power management."
+  description: |
+    A ruggedized four-port USB 3.0 hub PCB designed for industrial and embedded
+    computing applications where standard consumer hubs fall short on power
+    handling and reliability.
+
+    The board accepts a wide-range DC input via screw terminals, runs an onboard
+    switching regulator to generate a stable 5 V bus for the USB ports, and
+    incorporates per-port power switches with overcurrent protection. A dedicated
+    USB hub controller IC manages enumeration and bandwidth allocation across all
+    four downstream ports.
+
+    The design includes full reset circuitry, status LEDs for each port, and
+    test points throughout for production verification.
+  images:
+    - "images/projects/liam-burns/tst_500.png"
+  tags:
+    - PCB Design
+    - USB 3.0
+    - Power Management
+    - Industrial
+
+- id: signal-integrity-and-emi-emc
+  hidden: false
+  title: Signal Integrity & EMI/EMC Analysis
+  client: PMG Embedded
+  category: Simulation & Analysis
+  thumbnail: "images/projects/signal-integrity-and-emi-emc/eye_1.png"
+  summary: "Signal integrity simulation and pre-compliance EMI/EMC analysis for high-speed differential interfaces up to 10+ Gbps."
+  description: |
+    We help companies ensure signal reliability and electromagnetic compliance in
+    complex, high-speed designs. Whether a project is preparing for certification or
+    troubleshooting critical signal issues, we bring the simulation tools and
+    hands-on experience to make the design robust.
+
+    Our signal integrity work covers TDR analysis for precise impedance matching and
+    discontinuity detection, eye diagram simulation to quantify signal quality and
+    noise margins, and S-parameter characterization for frequency-domain analysis of
+    differential and single-ended pairs. Crosstalk analysis rounds out the picture,
+    identifying which adjacent signals are most affected and by how much.
+
+    On the EMC side, we perform near-field and far-field emission measurements,
+    helping identify and address radiated emissions before formal compliance testing.
+    We also provide design reviews covering grounding strategy, layer stackup,
+    return path management, and differential routing best practices.
+
+    This service is well suited for designs involving USB 3.x, PCIe, DDR/LPDDR,
+    HDMI, Ethernet, or other high-speed interfaces. We have worked on designs up to
+    10+ Gbps and combine simulation with practical layout adjustments to close issues
+    efficiently. Tools used include Ansys, HyperLynx, and LTspice, alongside custom
+    test setups for TDR, crosstalk, and emissions measurement.
+  images:
+    - "images/projects/signal-integrity-and-emi-emc/eye_1.png"
+    - "images/projects/signal-integrity-and-emi-emc/eye_2.png"
+    - "images/projects/signal-integrity-and-emi-emc/pcb_1.png"
+    - "images/projects/signal-integrity-and-emi-emc/pcb_2.png"
+    - "images/projects/signal-integrity-and-emi-emc/waveform_1.png"
+    - "images/projects/signal-integrity-and-emi-emc/waveform_2.png"
+    - "images/projects/signal-integrity-and-emi-emc/waveform_3.png"
+    - "images/projects/signal-integrity-and-emi-emc/waveform_4.png"
+    - "images/projects/signal-integrity-and-emi-emc/waveform_5.png"
+    - "images/projects/signal-integrity-and-emi-emc/waveform_6.png"
+  tags:
+    - Signal Integrity
+    - EMI/EMC
+    - High-Speed Design
+    - ANSYS
+    - PCB Analysis
+    - Simulation
+
+- id: qa-maestro-pmu
+  hidden: false
+  title: QA Maestro Power Management Unit
+  client: Paul Kang
+  category: PCB Design & Embedded Programming
+  thumbnail: "images/projects/paul-kang/tst.png"
+  summary: "Intelligent power management unit with STM32 supervision for the QA Maestro platform."
+  description: |
+    The QA Maestro PMU is the power backbone of the QA Maestro test platform,
+    managing 12 V system power and generating the regulated 3.3 V rails required
+    by the platform's digital subsystems.
+
+    An STM32 microcontroller acts as the system supervisor: sequencing power rails
+    on startup, monitoring supply voltages, and providing a firmware-controlled
+    reset and enable interface exposed through a header connector. A USB port
+    allows in-field firmware updates and debug communication without disassembling
+    the unit.
+
+    PMG Robotics was responsible for the schematic, PCB layout, and the STM32
+    supervisory firmware, delivering the board ready for integration into the
+    broader QA Maestro system.
+  images:
+    - "images/projects/paul-kang/tst.png"
+  tags:
+    - PCB Design
+    - Embedded Programming
+    - STM32
+    - Power Management
+    - Industrial
+
+- id: smart-lock-keivan
+  hidden: false
+  title: Smart Bike Lock
   client: Bikely
   category: PCB Design & Embedded Programming
-  thumbnail: "images/projects/smart-lock/pcb-render.png"
+  thumbnail: "images/projects/smart-lock-keivan/main_image.png"
   summary: "Ultra-low-power IoT bike lock with NB-IoT connectivity and remote control."
   description: |
-    Bikely is a cutting-edge smart bike lock designed to provide security and
-    convenience for cyclists. The device is built around an ultra-low-power
-    STM32L071CBT6 microcontroller (Arm Cortex-M0+, 32 MHz), keeping battery
-    consumption to an absolute minimum.
+    Bikely is a smart bike lock designed to give cyclists keyless, app-controlled
+    security without relying on Wi-Fi or Bluetooth range. The electronics are built
+    around an STM32L071CBT6 microcontroller (Arm Cortex-M0+, 32 MHz) chosen for
+    its extremely low active and standby current draw.
 
-    The locking mechanism uses a DC motor controlled by a DRV8210 integrated
-    motor driver (four N-channel power FETs), providing precise and reliable
-    lock/unlock actuation.
+    The locking mechanism is driven by a DC motor controlled through a DRV8210
+    integrated motor driver, providing precise and reliable lock/unlock actuation.
+    Connectivity is handled by a Quectel BG95-M2 NB-IoT module with an embedded
+    SIM, giving the lock a nationwide cellular footprint with no infrastructure
+    dependency.
 
-    Connectivity is provided by the Quectel BG95-M2 NB-IoT module paired with
-    a ceramic antenna and eSIM, enabling remote control from a smartphone app
-    with no Wi-Fi infrastructure required.
-
-    PMG Robotics was responsible for the full hardware design, PCB layout,
-    and embedded firmware development.
+    PMG Robotics was responsible for the full hardware design, multilayer PCB
+    layout, and embedded firmware development from bring-up through production.
   images:
-    - "images/projects/smart-lock/pcb-render.png"
+    - "images/projects/smart-lock-keivan/main_image.png"
+    - "images/projects/smart-lock-keivan/image_final_box.png"
+    - "images/projects/smart-lock-keivan/image_final_outside_lock.png"
   tags:
     - PCB Design
     - Embedded Programming
@@ -136,40 +265,100 @@
     - IoT
     - Ultra-Low-Power
 
-- id: smart-suitcase
-  title: Smart Suitcase
-  client: Novum Group
-  category: PCB Design & Embedded Programming
-  thumbnail: ""
-  summary: "Connected smart luggage with embedded tracking, security, and wireless features."
+- id: sagitta
+  hidden: false
+  title: Sagitta
+  client: Arcsec
+  category: Firmware Development
+  thumbnail: "images/projects/arcsec/sagitta.png"
+  summary: "Firmware development for Arcsec's high-precision star tracker used in satellite attitude determination."
   description: |
-    A smart suitcase project for Dejan at Novum Group, featuring embedded
-    electronics for real-time tracking, security monitoring, and wireless
-    connectivity.
+    Sagitta is a star tracker developed by Arcsec for precise attitude determination
+    in satellite applications. PMG Robotics collaborated with the Arcsec team on
+    the embedded firmware for this high-reliability space hardware.
 
-    PMG Robotics designed the PCB and firmware for the embedded module that
-    fits within the suitcase structure.
-  images: []
+    The firmware handles optical image processing from a dedicated sensor, runs
+    star-pattern matching algorithms on-board, and outputs quaternion attitude
+    data to the satellite's on-board computer — all within the tight power and
+    thermal constraints of a space mission.
+  images:
+    - "images/projects/arcsec/sagitta.png"
+  tags:
+    - Firmware Development
+    - Space Systems
+    - Embedded Systems
+    - High Reliability
+
+- id: twinkle
+  hidden: false
+  title: Twinkle
+  client: Arcsec
+  category: Firmware Development
+  thumbnail: "images/projects/arcsec/twinkle.png"
+  summary: "Firmware development for Arcsec's miniaturized star tracker targeting nanosatellite platforms."
+  description: |
+    Twinkle is a compact star tracker developed by Arcsec, purpose-built for
+    nanosatellite platforms where every cubic centimeter and gram counts.
+
+    PMG Robotics collaborated with the Arcsec team on the embedded firmware,
+    working within the strict size, weight, and power (SWaP) constraints of the
+    platform to deliver the same high-precision optical attitude measurement as
+    larger systems.
+  images:
+    - "images/projects/arcsec/twinkle.png"
+  tags:
+    - Firmware Development
+    - Space Systems
+    - Nanosatellites
+    - Low Power
+
+- id: iot-sensor-node
+  hidden: false
+  title: Multi-Sensor IoT Node
+  client: Carl Wilhite
+  category: PCB Design & Embedded Programming
+  thumbnail: "images/projects/carl-wilhite/top.png"
+  summary: "Coin-cell powered wireless sensor node integrating gyroscope, pressure, and temperature sensing."
+  description: |
+    A miniaturized wireless sensor node designed to run for extended periods on
+    a single CR3032 coin cell. The board integrates three sensors — a MEMS
+    gyroscope, a barometric pressure sensor, and a temperature sensor — onto a
+    small, low-profile PCB.
+
+    An STM32 microcontroller (Arm Cortex-M) manages sensor polling, data
+    aggregation, and wireless transmission, spending the majority of its time in
+    deep sleep to preserve the coin-cell budget. SWD and UART headers are provided
+    for development and production testing.
+
+    PMG Robotics handled the schematic capture, component selection for minimum
+    current draw, PCB layout, and firmware — delivering a validated, ready-to-deploy
+    sensor node.
+  images:
+    - "images/projects/carl-wilhite/top.png"
+    - "images/projects/carl-wilhite/bottom.png"
   tags:
     - PCB Design
     - Embedded Programming
+    - STM32
     - IoT
-    - Asset Tracking
+    - Ultra-Low-Power
+    - Wireless
 
 - id: lorawan-energy-meter
+  hidden: false
   title: LoRaWAN Energy Meter
   client: Jan Kerkel
   category: PCB Design & Embedded Programming
   thumbnail: ""
   summary: "Low-power energy meter with LoRaWAN wireless connectivity for remote monitoring."
   description: |
-    A LoRaWAN-connected energy meter designed for Jan Kerkel, intended for
-    remote monitoring of energy consumption in locations without reliable
-    network infrastructure.
+    A LoRaWAN-connected energy meter intended for remote monitoring of power
+    consumption at sites where cellular or Wi-Fi coverage is unreliable.
 
-    The design prioritizes low power consumption to allow extended battery-powered
-    operation in the field. LoRaWAN provides long-range wireless connectivity
-    back to a central monitoring server.
+    The design prioritizes ultra-low standby current so the device can run for
+    years on a primary cell battery. LoRaWAN provides long-range, low-bandwidth
+    uplinks to a cloud-based monitoring dashboard, with readings transmitted on a
+    configurable interval without any local network infrastructure required.
   images: []
   tags:
     - PCB Design

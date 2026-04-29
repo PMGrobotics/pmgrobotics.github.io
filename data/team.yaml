@@ -15,8 +15,8 @@
 # ─────────────────────────────────────────────────────────────────────────────
 
 - name: Danilo Lazic
-  role: Firmware Developer & Co-founder
-  photo: "images/team/danilo.png"
+  role: Firmware Developer
+  photo: "images/team/danilo.JPG"
   linkedin: "https://www.linkedin.com/in/danilo-lazic-73455418a/"
   email: "danilo@pmgembedded.com"
 
@@ -33,7 +33,7 @@
   email: "sladjan@pmgembedded.com"
 
 - name: Zelimir Trisic
-  role: Electrical Engineer
-  photo: "images/team/zelimir.png"
+  role: Hardware Engineer
+  photo: "images/team/zelimir.jpeg"
   linkedin: "https://www.linkedin.com/in/zelimir-trisic-292148175/"
   email: "zelimir@pmgembedded.com"
