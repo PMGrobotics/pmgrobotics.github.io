@@ -116,6 +116,41 @@ Edit `data/config.yaml`.
 
 ---
 
+## Analytics (Google Analytics 4)
+
+Tracking is active via GA4 property `G-V7C3YNENQB`. The gtag script is embedded in `index.html` and fires on every page load automatically — no code changes needed as you add content.
+
+### Viewing data
+
+Go to [analytics.google.com](https://analytics.google.com) and select the **pmgembedded.com** property.
+
+Key reports:
+
+| Report | Location | What it shows |
+|--------|----------|---------------|
+| **Real-Time** | Left sidebar → Reports → Real-time | Live visitors right now, their country, active page |
+| **Traffic overview** | Reports → Acquisition → Overview | Where visitors come from (Google, direct, referral) |
+| **Pages** | Reports → Engagement → Pages and screens | Which pages get most views, avg time on page |
+| **Geography** | Reports → Demographics → Geographic overview | Countries and cities of visitors |
+| **Devices** | Reports → Tech → Tech overview | Desktop vs mobile, browser breakdown |
+
+### Useful things to know
+
+- **Data delay:** standard reports lag ~24–48h. Real-Time is instant.
+- **Session:** one visit = one session. Counts reset after 30 min of inactivity.
+- **Bounce rate** not shown by default in GA4 — use *Engagement rate* instead (inverse of bounce).
+- **IP addresses** are never shown — GA anonymizes them by design (GDPR requirement).
+- **Filters:** exclude your own visits by installing [GA Opt-out browser extension](https://tools.google.com/dlpage/gaoptout) or by filtering your IP in GA4 → Admin → Data Streams → Configure tag settings → Define internal traffic.
+
+### Useful GA4 explorations
+
+In GA4 → **Explore** tab you can build custom reports:
+- **Funnel:** did visitors go from home → project detail → contact?
+- **Path exploration:** what pages do people visit after landing on home?
+- **Segment:** compare mobile vs desktop behaviour
+
+---
+
 ## How the site works (for Claude)
 
 Single-page app with hash-based routing:
