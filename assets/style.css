@@ -280,8 +280,6 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   opacity: 1;
   pointer-events: auto;      /* only the visible slide is clickable */
 }
-.slideshow-slide:hover .slideshow-arrow { opacity: 1; transform: translateX(4px); }
-
 .slideshow-img {
   width: 100%;
   height: 100%;
@@ -314,14 +312,6 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   font-size: 13px;
   font-weight: 600;
   color: #fff;
-}
-.slideshow-arrow {
-  font-size: 18px;
-  color: #fff;
-  opacity: 0;
-  transition: opacity 0.2s, transform 0.2s;
-  flex-shrink: 0;
-  margin-left: auto;
 }
 .slideshow-dots {
   position: absolute;
@@ -796,10 +786,31 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 /* Description */
 .project-detail-body { max-width: 720px; }
 .project-description p {
-  font-size: 16px;
+  font-size: 15px;
   color: var(--text-muted);
-  line-height: 1.85;
-  margin-bottom: 18px;
+  line-height: 1.65;
+  margin-bottom: 12px;
+}
+.project-description h2 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  color: var(--text);
+  margin: 32px 0 10px;
+}
+.project-description h3 {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 24px 0 8px;
+}
+.project-description h4 {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin: 20px 0 6px;
 }
 
 /* ─────────────────────────────────────────────

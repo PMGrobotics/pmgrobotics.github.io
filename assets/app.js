@@ -87,7 +87,6 @@ function heroHTML() {
                 <span class="slideshow-client">${p.client}</span>
                 <span class="slideshow-title">${p.title}</span>
               </div>
-              <span class="slideshow-arrow">&#8594;</span>
             </div>
           </div>`).join('')}
         ${slides.length > 1 ? `
@@ -337,13 +336,18 @@ function renderProject(p) {
     .split('\n')
     .map(l => l.trim())
     .filter(Boolean)
-    .map(l => `<p>${l}</p>`)
+    .map(l => {
+      if (l.startsWith('### ')) return `<h4>${l.slice(4)}</h4>`;
+      if (l.startsWith('## '))  return `<h3>${l.slice(3)}</h3>`;
+      if (l.startsWith('# '))   return `<h2>${l.slice(2)}</h2>`;
+      return `<p>${l}</p>`;
+    })
     .join('');
 
   document.getElementById('app').innerHTML = `
   <div class="project-detail">
     <div class="container">
-      <a href="#" class="back-link" id="back-btn">&#8592; All projects</a>
+      <a href="#" class="back-link" id="back-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg> All projects</a>
       <div class="project-detail-header">
         <span class="project-client-tag">${p.client || ''}</span>
         <h1 class="project-detail-title">${p.title || ''}</h1>
