@@ -16,24 +16,24 @@
 
 - name: Danilo Lazic
   role: Firmware Developer
-  photo: "images/team/danilo.JPG"
+  photo: "images/team/thumbs/danilo.JPG"
   linkedin: "https://www.linkedin.com/in/danilo-lazic-73455418a/"
   email: "danilo@pmgembedded.com"
 
 - name: Nikola Rasevic
   role: PCB Design Engineer
-  photo: "images/team/nikola.png"
+  photo: "images/team/thumbs/nikola.png"
   linkedin: "https://www.linkedin.com/in/nikirasevic/"
   email: "nikola@pmgembedded.com"
 
 - name: Sladjan Plavsic
   role: Mechanical Designer
-  photo: "images/team/sladjan.png"
+  photo: "images/team/thumbs/sladjan.png"
   linkedin: "https://www.linkedin.com/in/sladjanplavsic/"
   email: "sladjan@pmgembedded.com"
 
 - name: Zelimir Trisic
   role: Hardware Engineer
-  photo: "images/team/zelimir.jpeg"
+  photo: "images/team/thumbs/zelimir.jpeg"
   linkedin: "https://www.linkedin.com/in/zelimir-trisic-292148175/"
   email: "zelimir@pmgembedded.com"

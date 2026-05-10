@@ -31,7 +31,7 @@
   title: AM1808 System-on-Module
   client: Rabbit Hole Computing
   category: PCB Design
-  thumbnail: "images/projects/alex-peres/am1808_trans.png"
+  thumbnail: "images/projects/alex-peres/thumbs/am1808_trans.png"
   summary: "Custom SoM based on the Texas Instruments AM1808 processor for industrial applications."
   description: |
     A custom System-on-Module (SoM) built around the Texas Instruments AM1808
@@ -56,7 +56,7 @@
   title: MPC8313E PowerQUIC II
   client: Rabbit Hole Computing
   category: PCB Design
-  thumbnail: "images/projects/alex-peres/main_image_v2.png"
+  thumbnail: "images/projects/alex-peres/thumbs/main_image_v2.png"
   summary: "Custom embedded computing board based on the NXP MPC8313E PowerQUIC II processor."
   description: |
     A custom board design based on the NXP MPC8313E PowerQUIC II processor,
@@ -102,7 +102,7 @@
   title: Jetson Xavier NX Carrier Board
   client: Lincon Cavalieri
   category: PCB Design
-  thumbnail: "images/projects/lincon-cavalieri/main_image_v2.png"
+  thumbnail: "images/projects/lincon-cavalieri/thumbs/main_image_v2.png"
   summary: "High-density custom carrier board for the NVIDIA Jetson Xavier NX AI compute module."
   description: |
     A compact, high-density carrier board designed to host the NVIDIA Jetson Xavier
@@ -131,7 +131,7 @@
   title: Industrial USB Hub
   client: Alterra
   category: PCB Design
-  thumbnail: "images/projects/liam-burns/tst_500.png"
+  thumbnail: "images/projects/liam-burns/thumbs/tst_500.png"
   summary: "Four-port USB 3.0 hub with industrial power input and per-port power management."
   description: |
     A ruggedized four-port USB 3.0 hub PCB designed for industrial and embedded
@@ -159,7 +159,7 @@
   title: Signal Integrity & EMI/EMC Analysis
   client: PMG Embedded
   category: Simulation & Analysis
-  thumbnail: "images/projects/signal-integrity-and-emi-emc/eye_1.png"
+  thumbnail: "images/projects/signal-integrity-and-emi-emc/thumbs/eye_1.png"
   summary: "Signal integrity simulation and pre-compliance EMI/EMC analysis for high-speed differential interfaces up to 10+ Gbps."
   description: |
     We help companies ensure signal reliability and electromagnetic compliance in
@@ -207,7 +207,7 @@
   title: QA Maestro Power Management Unit
   client: Paul Kang
   category: PCB Design & Embedded Programming
-  thumbnail: "images/projects/paul-kang/tst.png"
+  thumbnail: "images/projects/paul-kang/thumbs/tst.png"
   summary: "Intelligent power management unit with STM32 supervision for the QA Maestro platform."
   description: |
     The QA Maestro PMU is the power backbone of the QA Maestro test platform,
@@ -237,7 +237,7 @@
   title: Smart Bike Lock
   client: Bikely
   category: PCB Design & Embedded Programming
-  thumbnail: "images/projects/smart-lock-keivan/main_image.png"
+  thumbnail: "images/projects/smart-lock-keivan/thumbs/main_image.png"
   summary: "Ultra-low-power IoT bike lock with NB-IoT connectivity and remote control."
   description: |
     Bikely is a smart bike lock designed to give cyclists keyless, app-controlled
@@ -270,7 +270,7 @@
   title: Sagitta
   client: Arcsec
   category: Firmware Development
-  thumbnail: "images/projects/arcsec/sagitta.png"
+  thumbnail: "images/projects/arcsec/thumbs/sagitta.png"
   summary: "Firmware development for Arcsec's high-precision star tracker used in satellite attitude determination."
   description: |
     Sagitta is a star tracker developed by Arcsec for precise attitude determination
@@ -294,7 +294,7 @@
   title: Twinkle
   client: Arcsec
   category: Firmware Development
-  thumbnail: "images/projects/arcsec/twinkle.png"
+  thumbnail: "images/projects/arcsec/thumbs/twinkle.png"
   summary: "Firmware development for Arcsec's miniaturized star tracker targeting nanosatellite platforms."
   description: |
     Twinkle is a compact star tracker developed by Arcsec, purpose-built for
@@ -317,7 +317,7 @@
   title: Multi-Sensor IoT Node
   client: Carl Wilhite
   category: PCB Design & Embedded Programming
-  thumbnail: "images/projects/carl-wilhite/top.png"
+  thumbnail: "images/projects/carl-wilhite/thumbs/top.png"
   summary: "Coin-cell powered wireless sensor node integrating gyroscope, pressure, and temperature sensing."
   description: |
     A miniaturized wireless sensor node designed to run for extended periods on
