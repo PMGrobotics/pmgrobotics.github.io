@@ -486,6 +486,15 @@ function initSlideshow() {
     });
   });
 
+  document.addEventListener('keydown', function heroKeyHandler(e) {
+    if (!document.getElementById('hero-slideshow')) {
+      document.removeEventListener('keydown', heroKeyHandler);
+      return;
+    }
+    if (e.key === 'ArrowLeft')  { goTo(current - 1); startTimer(); }
+    if (e.key === 'ArrowRight') { goTo(current + 1); startTimer(); }
+  });
+
   startTimer();
 }
 
