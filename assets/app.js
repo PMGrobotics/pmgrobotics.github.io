@@ -34,6 +34,7 @@ async function loadData() {
 // ── Router ────────────────────────────────────────────────────────────────────
 
 function router() {
+  document.getElementById('project-slideshow')?._removeKeyHandler?.();
   const hash = window.location.hash;
   const match = hash.match(/^#project\/(.+)/);
 
@@ -322,14 +323,19 @@ function contactHTML() {
 
 function renderProject(p) {
   const images = p.images || [];
-  const galleryClass = images.length === 1 ? 'project-gallery gallery-single' : 'project-gallery';
-
+  const multi = images.length > 1;
   const galleryHTML = images.length ? `
-    <div class="${galleryClass}">
+    <div class="project-slideshow" id="project-slideshow">
       ${images.map((img, i) => `
-        <div class="gallery-item${i === 0 ? ' gallery-item-main' : ''}">
+        <div class="project-slide${i === 0 ? ' active' : ''}">
           <img src="${img}" alt="${p.title} photo ${i + 1}" loading="lazy">
         </div>`).join('')}
+      ${multi ? `
+        <button class="project-slide-btn project-slide-prev" aria-label="Previous image">&#8249;</button>
+        <button class="project-slide-btn project-slide-next" aria-label="Next image">&#8250;</button>
+        <div class="slideshow-dots project-slideshow-dots">
+          ${images.map((_, i) => `<button class="slideshow-dot${i === 0 ? ' active' : ''}" data-idx="${i}" aria-label="Go to image ${i + 1}"></button>`).join('')}
+        </div>` : ''}
     </div>` : '';
 
   const descHTML = (p.description || '')
@@ -360,9 +366,6 @@ function renderProject(p) {
         <div class="project-description">${descHTML}</div>
       </div>
     </div>
-  </div>
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image preview">
-    <img id="lightbox-img" src="" alt="Full size image">
   </div>`;
 
   document.getElementById('back-btn').addEventListener('click', e => {
@@ -375,26 +378,62 @@ function renderProject(p) {
     }
   });
 
-  // Lightbox
-  document.querySelectorAll('.gallery-item img').forEach(img => {
-    img.addEventListener('click', () => openLightbox(img.src));
-  });
-  document.getElementById('lightbox').addEventListener('click', closeLightbox);
-  document.addEventListener('keydown', function escHandler(e) {
-    if (e.key === 'Escape') { closeLightbox(); document.removeEventListener('keydown', escHandler); }
-  });
+  initProjectSlideshow();
 }
 
-function openLightbox(src) {
-  const lb = document.getElementById('lightbox');
-  if (!lb) return;
-  document.getElementById('lightbox-img').src = src;
-  lb.classList.add('active');
+function initProjectSlideshow() {
+  const container = document.getElementById('project-slideshow');
+  if (!container) return;
+  const slides = container.querySelectorAll('.project-slide');
+  const dots   = container.querySelectorAll('.slideshow-dot');
+  if (slides.length < 2) return;
+
+  let current = 0;
+
+  function goTo(idx) {
+    slides[current].classList.remove('active');
+    if (dots[current]) dots[current].classList.remove('active');
+    current = (idx + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    if (dots[current]) dots[current].classList.add('active');
+  }
+
+  container.querySelector('.project-slide-prev')?.addEventListener('click', () => goTo(current - 1));
+  container.querySelector('.project-slide-next')?.addEventListener('click', () => goTo(current + 1));
+  dots.forEach(dot => dot.addEventListener('click', () => goTo(parseInt(dot.dataset.idx))));
+
+  function keyHandler(e) {
+    if (e.key === 'ArrowLeft')  goTo(current - 1);
+    if (e.key === 'ArrowRight') goTo(current + 1);
+  }
+  document.addEventListener('keydown', keyHandler);
+
+  // Drag / swipe
+  let dragStartX = null;
+  const THRESHOLD = 50;
+
+  function onDragStart(x) { dragStartX = x; }
+  function onDragEnd(x) {
+    if (dragStartX === null) return;
+    const delta = dragStartX - x;
+    if (Math.abs(delta) >= THRESHOLD) goTo(delta > 0 ? current + 1 : current - 1);
+    dragStartX = null;
+  }
+
+  container.addEventListener('mousedown',  e => onDragStart(e.clientX));
+  container.addEventListener('mouseup',    e => onDragEnd(e.clientX));
+  container.addEventListener('mouseleave', e => { if (dragStartX !== null) onDragEnd(e.clientX); });
+  container.addEventListener('touchstart', e => onDragStart(e.touches[0].clientX),    { passive: true });
+  container.addEventListener('touchend',   e => onDragEnd(e.changedTouches[0].clientX));
+
+  container.style.cursor = 'grab';
+  container.addEventListener('mousedown', () => { container.style.cursor = 'grabbing'; });
+  container.addEventListener('mouseup',   () => { container.style.cursor = 'grab'; });
+  container.addEventListener('mouseleave',() => { container.style.cursor = 'grab'; });
+
+  container._removeKeyHandler = () => document.removeEventListener('keydown', keyHandler);
 }
 
-function closeLightbox() {
-  document.getElementById('lightbox')?.classList.remove('active');
-}
 
 // ── Interaction helpers ───────────────────────────────────────────────────────
 
