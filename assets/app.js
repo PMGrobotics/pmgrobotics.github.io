@@ -1,5 +1,5 @@
 /* ─────────────────────────────────────────────────────────────────────────────
-   PMG Robotics — single-page app
+   PMG Embedded — single-page app
    Data is loaded from data/config.yaml, data/projects.yaml, data/team.yaml
 ───────────────────────────────────────────────────────────────────────────── */
 
@@ -26,8 +26,6 @@ async function loadData() {
   } catch (err) {
     console.error('Failed to load site data:', err);
     state.loadError = err.message;
-    // Don't set innerHTML here — router() runs next and renders the page.
-    // The projects section will show the error inline.
   }
 }
 
@@ -47,11 +45,16 @@ function router() {
     }
   }
 
+  if (hash === '#all-projects') {
+    renderProjectsList();
+    window.scrollTo({ top: 0 });
+    return;
+  }
+
   renderHome();
 
-  // Handle section anchors like #projects, #team, #contact
   const sectionId = hash.replace('#', '');
-  if (['services', 'projects', 'team', 'contact'].includes(sectionId)) {
+  if (['services', 'team', 'contact'].includes(sectionId)) {
     setTimeout(() => {
       document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
     }, 60);
@@ -64,12 +67,51 @@ function router() {
 
 function renderHome() {
   document.getElementById('app').innerHTML =
-    heroHTML() + servicesHTML() + projectsHTML() + partnersHTML() + teamHTML() + contactHTML();
+    heroHTML() + statsHTML() + servicesHTML() + projectsHTML() + partnersHTML() + teamHTML() + contactHTML();
 
   initProjectCards();
   initSlideshow();
   initContactForm();
+  initScrollReveal();
+  initActiveNav();
+  initProjectsCarousel();
 }
+
+// ── All-projects page ─────────────────────────────────────────────────────────
+
+function renderProjectsList() {
+  const visible = state.projects.filter(p => !p.hidden);
+
+  document.getElementById('app').innerHTML = `
+  <div class="projects-list-page">
+    <div class="container">
+      <a href="#" class="back-link" id="back-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+        Back to home
+      </a>
+      <div class="section-header">
+        <h2>All Projects</h2>
+        <p class="section-sub">Our full portfolio of hardware engineering work</p>
+      </div>
+      <div class="projects-grid">
+        ${visible.map((p, i) => projectCardHTML(p, i)).join('')}
+      </div>
+    </div>
+  </div>`;
+
+  document.getElementById('back-btn').addEventListener('click', e => {
+    e.preventDefault();
+    window.location.hash = '';
+  });
+
+  initProjectCards();
+  initScrollReveal();
+}
+
+// ── Home HTML builders ────────────────────────────────────────────────────────
 
 function heroHTML() {
   const c = state.config;
@@ -106,7 +148,7 @@ function heroHTML() {
         <p class="hero-desc">${desc}</p>
         <div class="hero-actions">
           <a href="#contact" class="btn btn-primary">Get in touch</a>
-          <a href="#projects" class="btn btn-ghost">See our work ↓</a>
+          <a href="#all-projects" class="btn btn-ghost">See our work ↓</a>
         </div>
       </div>
       <div class="hero-visual">
@@ -114,6 +156,27 @@ function heroHTML() {
       </div>
     </div>
   </section>`;
+}
+
+function statsHTML() {
+  const stats = [
+    { number: '30+',  label: 'Projects delivered' },
+    { number: '3',    label: 'Engineering disciplines' },
+    { number: '15+',   label: 'Countries served' },
+    { number: '2020', label: 'Year founded' },
+  ];
+  return `
+  <div class="stats-strip">
+    <div class="container">
+      <div class="stats-row">
+        ${stats.map((s, i) => `
+          <div class="stat-item reveal reveal-d${i + 1}">
+            <div class="stat-number">${s.number}</div>
+            <div class="stat-label">${s.label}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+  </div>`;
 }
 
 function servicesHTML() {
@@ -143,13 +206,15 @@ function servicesHTML() {
   return `
   <section class="services" id="services">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal">
         <h2>What we do</h2>
       </div>
       <div class="services-grid">
-        ${services.map(s => `
-          <div class="service-card">
-            <div class="service-icon">${s.icon}</div>
+        ${services.map((s, i) => `
+          <div class="service-card reveal reveal-d${i + 1}">
+            <div class="service-icon-wrap">
+              <div class="service-icon">${s.icon}</div>
+            </div>
             <h3>${s.title}</h3>
             <p>${s.desc}</p>
           </div>`).join('')}
@@ -164,47 +229,72 @@ function projectsHTML() {
     const notice = state.loadError
       ? `<p style="color:#ef4444;font-size:14px;padding:8px 0;line-height:1.7">
            Could not load projects.yaml.<br>
-           If testing locally, make sure you started the HTTP server first:<br>
+           If testing locally, start the HTTP server first:<br>
            <code style="background:#1e293b;padding:4px 8px;border-radius:4px;font-size:13px">python3 -m http.server 8000</code><br>
-           Then open <code style="background:#1e293b;padding:4px 8px;border-radius:4px;font-size:13px">http://localhost:8000</code><br>
            Error: ${state.loadError}
          </p>`
       : `<p style="color:var(--text-dim);font-size:14px">No projects yet. Add them to data/projects.yaml</p>`;
     return `
-      <section class="projects-section" id="projects">
+      <section class="projects-section" id="projects-home">
         <div class="container">
-          <div class="section-header">
-            <h2>Projects</h2>
-          </div>
+          <div class="section-header"><h2>Projects</h2></div>
           ${notice}
         </div>
       </section>`;
   }
 
+  const totalPages = Math.ceil(visible.length / 3);
+  const firstThree = visible.slice(0, 3);
+
+  const dots = totalPages > 1
+    ? `<div class="carousel-dots" id="carousel-dots">
+        ${Array.from({ length: totalPages }, (_, i) =>
+          `<button class="carousel-dot${i === 0 ? ' active' : ''}" data-page="${i}" aria-label="Page ${i + 1}"></button>`
+        ).join('')}
+       </div>`
+    : '<div></div>';
+
   return `
-  <section class="projects-section" id="projects">
+  <section class="projects-section" id="projects-home">
     <div class="container">
-      <div class="section-header">
-        <h2>Projects</h2>
-        <p class="section-sub">A selection of work we can share publicly</p>
+      <div class="section-header-row">
+        <div class="section-header reveal">
+          <h2>Projects</h2>
+          <p class="section-sub">A selection of work we can share publicly</p>
+        </div>
+        <a href="#all-projects" class="view-all-link">
+          View all ${svgArrowRight(14)}
+        </a>
       </div>
-    </div>
-    <div class="projects-scroll-wrapper">
-      <div class="projects-scroll" id="projects-scroll">
-        ${visible.map(projectCardHTML).join('')}
+      <div id="projects-cards" class="projects-grid">
+        ${firstThree.map((p, i) => projectCardHTML(p, i)).join('')}
       </div>
+      ${totalPages > 1 ? `
+      <div class="carousel-controls">
+        ${dots}
+        <div class="carousel-arrows">
+          <button class="carousel-btn" id="carousel-prev" aria-label="Previous projects" disabled>
+            ${svgChevronLeft()}
+          </button>
+          <button class="carousel-btn" id="carousel-next" aria-label="Next projects">
+            ${svgChevronRight()}
+          </button>
+        </div>
+      </div>` : ''}
     </div>
   </section>`;
 }
 
-function projectCardHTML(p) {
+function projectCardHTML(p, i) {
   const thumb = (p.thumbnail || '').trim();
   const bgStyle = thumb ? `background-image:url('${thumb}')` : '';
+  const delay = `reveal-d${(i % 3) + 1}`;
 
   return `
-  <div class="project-card" data-id="${p.id}" role="button" tabindex="0" aria-label="Open ${p.title}">
+  <div class="project-card reveal ${delay}" data-id="${p.id}" role="button" tabindex="0" aria-label="Open ${p.title}">
     <div class="project-thumb" style="${bgStyle}">
       ${!thumb ? `<span class="thumb-placeholder-letter">${(p.title || '?')[0].toUpperCase()}</span>` : ''}
+      <div class="project-thumb-overlay"></div>
     </div>
     <div class="project-card-body">
       <div class="project-client">${p.client || ''}</div>
@@ -213,6 +303,7 @@ function projectCardHTML(p) {
       <div class="project-tags">
         ${(p.tags || []).slice(0, 3).map(t => `<span class="tag">${t}</span>`).join('')}
       </div>
+      <span class="project-card-cta">View project ${svgArrowRight(12)}</span>
     </div>
   </div>`;
 }
@@ -224,12 +315,12 @@ function partnersHTML() {
   return `
   <section class="partners-section" id="partners">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal">
         <h2>Partners</h2>
       </div>
       <div class="partners-row">
-        ${partners.map(p => `
-          <a href="${p.url}" class="partner-card" target="_blank" rel="noopener noreferrer" aria-label="${p.name}">
+        ${partners.map((p, i) => `
+          <a href="${p.url}" class="partner-card reveal reveal-d${(i % 4) + 1}" target="_blank" rel="noopener noreferrer" aria-label="${p.name}">
             ${p.logo
               ? `<img src="${p.logo}" alt="${p.name}" class="partner-logo" loading="lazy">`
               : `<span class="partner-name-text">${p.name}</span>`}
@@ -245,12 +336,12 @@ function teamHTML() {
   return `
   <section class="team-section" id="team">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal">
         <h2>Team</h2>
       </div>
       <div class="team-grid">
-        ${state.team.map(m => `
-          <div class="team-member">
+        ${state.team.map((m, i) => `
+          <div class="team-member reveal reveal-d${(i % 4) + 1}">
             <div class="member-photo">
               ${m.linkedin
                 ? `<a href="${m.linkedin}" class="member-photo-link" target="_blank" rel="noopener noreferrer" aria-label="${m.name} on LinkedIn">
@@ -271,7 +362,7 @@ function teamHTML() {
 }
 
 function contactHTML() {
-  const c    = state.config;
+  const c     = state.config;
   const name  = c.name  || 'PMG Robotics';
   const email = c.email || '';
   const year  = new Date().getFullYear();
@@ -301,14 +392,14 @@ function contactHTML() {
   <footer class="contact-section" id="contact">
     <div class="container">
       <div class="contact-grid">
-        <div class="contact-left">
+        <div class="contact-left reveal">
           <img src="images/logo-white.png" alt="${name}" class="footer-logo"
                onerror="this.style.display='none'">
           <p class="contact-tagline">${c.footer_desc || 'PCB design, embedded firmware, and mechanical engineering for hardware startups and established companies.'}</p>
           <p class="contact-location">Novi Sad, Serbia</p>
           ${email ? `<a href="mailto:${email}" class="contact-email-link">${email}</a>` : ''}
         </div>
-        <div class="contact-right">
+        <div class="contact-right reveal reveal-d2">
           ${rightContent}
         </div>
       </div>
@@ -353,7 +444,13 @@ function renderProject(p) {
   document.getElementById('app').innerHTML = `
   <div class="project-detail">
     <div class="container">
-      <a href="#" class="back-link" id="back-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg> All projects</a>
+      <a href="#" class="back-link" id="back-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+        All projects
+      </a>
       <div class="project-detail-header">
         <span class="project-client-tag">${p.client || ''}</span>
         <h1 class="project-detail-title">${p.title || ''}</h1>
@@ -370,11 +467,10 @@ function renderProject(p) {
 
   document.getElementById('back-btn').addEventListener('click', e => {
     e.preventDefault();
-    // Go back if we came from the same site, otherwise go home
     if (history.length > 1 && document.referrer.includes(location.hostname)) {
       history.back();
     } else {
-      window.location.hash = '';
+      window.location.hash = '#all-projects';
     }
   });
 
@@ -408,10 +504,8 @@ function initProjectSlideshow() {
   }
   document.addEventListener('keydown', keyHandler);
 
-  // Drag / swipe
   let dragStartX = null;
   const THRESHOLD = 50;
-
   function onDragStart(x) { dragStartX = x; }
   function onDragEnd(x) {
     if (dragStartX === null) return;
@@ -419,13 +513,11 @@ function initProjectSlideshow() {
     if (Math.abs(delta) >= THRESHOLD) goTo(delta > 0 ? current + 1 : current - 1);
     dragStartX = null;
   }
-
   container.addEventListener('mousedown',  e => onDragStart(e.clientX));
   container.addEventListener('mouseup',    e => onDragEnd(e.clientX));
   container.addEventListener('mouseleave', e => { if (dragStartX !== null) onDragEnd(e.clientX); });
   container.addEventListener('touchstart', e => onDragStart(e.touches[0].clientX),    { passive: true });
   container.addEventListener('touchend',   e => onDragEnd(e.changedTouches[0].clientX));
-
   container.style.cursor = 'grab';
   container.addEventListener('mousedown', () => { container.style.cursor = 'grabbing'; });
   container.addEventListener('mouseup',   () => { container.style.cursor = 'grab'; });
@@ -433,7 +525,6 @@ function initProjectSlideshow() {
 
   container._removeKeyHandler = () => document.removeEventListener('keydown', keyHandler);
 }
-
 
 // ── Interaction helpers ───────────────────────────────────────────────────────
 
@@ -445,11 +536,62 @@ function initProjectCards() {
   });
 }
 
+function initProjectsCarousel() {
+  const visible = state.projects.filter(p => !p.hidden);
+  if (visible.length <= 3) return;
+
+  const totalPages = Math.ceil(visible.length / 3);
+  let currentPage = 0;
+
+  function goToPage(page) {
+    const container = document.getElementById('projects-cards');
+    if (!container) return;
+    currentPage = Math.max(0, Math.min(page, totalPages - 1));
+
+    container.classList.add('fading');
+    setTimeout(() => {
+      const slice = visible.slice(currentPage * 3, currentPage * 3 + 3);
+      container.innerHTML = slice.map((p, i) => projectCardHTML(p, i)).join('');
+      container.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+      container.classList.remove('fading');
+      initProjectCards();
+      updateUI();
+    }, 220);
+  }
+
+  function updateUI() {
+    const prev = document.getElementById('carousel-prev');
+    const next = document.getElementById('carousel-next');
+    if (prev) prev.disabled = currentPage === 0;
+    if (next) next.disabled = currentPage === totalPages - 1;
+    document.querySelectorAll('#carousel-dots .carousel-dot').forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentPage);
+    });
+  }
+
+  document.getElementById('carousel-prev')?.addEventListener('click', () => goToPage(currentPage - 1));
+  document.getElementById('carousel-next')?.addEventListener('click', () => goToPage(currentPage + 1));
+  document.querySelectorAll('#carousel-dots .carousel-dot').forEach(dot => {
+    dot.addEventListener('click', () => goToPage(parseInt(dot.dataset.page)));
+  });
+
+  function keyHandler(e) {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    const section = document.getElementById('projects-home');
+    if (!section) { document.removeEventListener('keydown', keyHandler); return; }
+    const rect = section.getBoundingClientRect();
+    const inView = rect.top < window.innerHeight * 0.65 && rect.bottom > window.innerHeight * 0.35;
+    if (!inView) return;
+    e.preventDefault();
+    if (e.key === 'ArrowLeft')  goToPage(currentPage - 1);
+    if (e.key === 'ArrowRight') goToPage(currentPage + 1);
+  }
+  document.addEventListener('keydown', keyHandler);
+}
 
 function initSlideshow() {
   const container = document.getElementById('hero-slideshow');
   if (!container) return;
-
   const slides = container.querySelectorAll('.slideshow-slide');
   const dots   = container.querySelectorAll('.slideshow-dot');
   if (slides.length < 2) return;
@@ -471,16 +613,11 @@ function initSlideshow() {
   }
 
   dots.forEach(dot => {
-    dot.addEventListener('click', () => {
-      goTo(parseInt(dot.dataset.idx));
-      startTimer();
-    });
+    dot.addEventListener('click', () => { goTo(parseInt(dot.dataset.idx)); startTimer(); });
   });
 
-  // Clicking a slide opens the project
   container.querySelectorAll('.slideshow-slide').forEach(slide => {
     slide.addEventListener('click', e => {
-      // Don't navigate if clicking a dot
       if (e.target.closest('.slideshow-dots')) return;
       if (slide.dataset.id) window.location.hash = `project/${slide.dataset.id}`;
     });
@@ -491,6 +628,9 @@ function initSlideshow() {
       document.removeEventListener('keydown', heroKeyHandler);
       return;
     }
+    // Only fire when hero is visible (not scrolled past)
+    const hero = document.getElementById('home');
+    if (hero && hero.getBoundingClientRect().bottom < 0) return;
     if (e.key === 'ArrowLeft')  { goTo(current - 1); startTimer(); }
     if (e.key === 'ArrowRight') { goTo(current + 1); startTimer(); }
   });
@@ -498,17 +638,45 @@ function initSlideshow() {
   startTimer();
 }
 
+function initScrollReveal() {
+  const els = document.querySelectorAll('.reveal');
+  if (!els.length) return;
+  if (!window.IntersectionObserver) {
+    els.forEach(el => el.classList.add('visible'));
+    return;
+  }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  els.forEach(el => io.observe(el));
+}
+
+function initActiveNav() {
+  if (!window.IntersectionObserver) return;
+  const sections = ['services', 'partners', 'team', 'contact'];
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      const link = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+      if (link) link.classList.toggle('active', e.isIntersecting);
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) io.observe(el);
+  });
+}
+
 function initHamburger() {
   const btn   = document.getElementById('hamburger');
   const links = document.getElementById('nav-links');
   if (!btn || !links) return;
-
   btn.addEventListener('click', () => {
     const open = links.classList.toggle('open');
     btn.classList.toggle('open', open);
     btn.setAttribute('aria-expanded', String(open));
   });
-
   links.querySelectorAll('a').forEach(a => {
     a.addEventListener('click', () => {
       links.classList.remove('open');
@@ -529,11 +697,9 @@ function initContactForm() {
     const btn     = document.getElementById('form-submit-btn');
     const success = document.getElementById('form-success');
     const error   = document.getElementById('form-error');
-
     btn.disabled = true;
     btn.textContent = 'Sending…';
     error.textContent = '';
-
     try {
       const res = await fetch(endpoint, {
         method: 'POST',
@@ -560,7 +726,7 @@ function initContactForm() {
 function initNavLogoLink() {
   document.getElementById('nav-logo')?.addEventListener('click', e => {
     e.preventDefault();
-    if (window.location.hash.startsWith('#project/')) {
+    if (window.location.hash.startsWith('#project/') || window.location.hash === '#all-projects') {
       window.location.hash = '';
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -569,6 +735,27 @@ function initNavLogoLink() {
 }
 
 // ── SVG Icons ─────────────────────────────────────────────────────────────────
+
+function svgArrowRight(size = 14) {
+  return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+    aria-hidden="true">
+    <line x1="5" y1="12" x2="19" y2="12"/>
+    <polyline points="12 5 19 12 12 19"/>
+  </svg>`;
+}
+
+function svgChevronLeft() {
+  return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+    aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>`;
+}
+
+function svgChevronRight() {
+  return `<svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+    aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>`;
+}
 
 function svgChip() {
   return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
